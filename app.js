@@ -4,11 +4,21 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var eHbs = require('express-handlebars');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
 var app = express();
+
+app.engine('.hbs', eHbs({
+        extname        : '.hbs',
+        layoutsDir     : path.join(__dirname, '/views/layouts'),
+        partialsDir    : [
+                            path.join(__dirname, '/views/partials')
+                        ],
+        defaultLayout  : 'main'
+    }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
