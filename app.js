@@ -8,8 +8,27 @@ var eHbs = require('express-handlebars');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var errorsRoutes = require('./routes/errors');
 
 var app = express();
+
+var mongoClient = require('mongodb').MongoClient;
+const mongoDatabaseUrl = "mongodb://localhost:27017/worldbank";
+
+mongoClient.connect(mongoDatabaseUrl, function (err, db) {
+
+  /**
+   * Here we are checking an err variable is having null value
+   * or not.
+   * 
+   */
+  if (err === null && typeof err === "object") {
+
+    console.log('Connection has been made successfull using nodemon');
+  }
+  db.close();
+
+});
 
 app.engine('.hbs', eHbs({
   extname: '.hbs',
@@ -32,8 +51,22 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+function errorHandler(err, req, res, next) {
+
+  console.log(err.message);
+  console.log(err.stack);
+
+  res.status(500);
+  res.send('Something went wrong try after some time.');
+}
+
+app.use(errorHandler);
+
 app.use('/', index);
 app.use('/users', users);
+app.use('/errors', errorsRoutes);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
