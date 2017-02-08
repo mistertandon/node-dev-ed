@@ -2,6 +2,8 @@ var express = require('express');
 var util = require('util');
 var router = express.Router();
 
+var Movie = require('./../app/models/movie');
+
 router.post('/add', function (req, res, next) {
 
   req.checkBody('email', 'Enter E-mail Address').notEmpty();
@@ -16,8 +18,10 @@ router.post('/add', function (req, res, next) {
       return;
     }
 
-  });
+    Movie.getCategories(req, res, next);
 
+
+  });
 
 });
 
