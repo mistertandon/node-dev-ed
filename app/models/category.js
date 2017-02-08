@@ -1,30 +1,14 @@
-var MongoDbI = require('./mongodbm').MongoDbI;
+var MongoDbM = require('./mongodbm'),
+  MongoDbI = MongoDbM.MongoDbI,
+  MongoBSON = MongoDbM.MongoBSON;
 
-/*
-var mongo = require('mongodb'),
-  mongoServer = mongo.Server,
-  mongoDB = mongo.Db;
+var objectID = require('bson-objectid');
 
-var server, db;
-
-server = new mongoServer('localhost', 27017);
-db = new mongoDB('worldbank', server);
-
-db.open(function (err, db) {
-
-  if (err !== null) {
-
-    console.log('Something went wrong with database, try after some time');
-  }
-
-});
-*/
 module.exports.getCategories = function (req, res, next) {
-
   /**
    * Using databse instance we will access categories table.
    */
-  MongoDbI.collection('categories', function (err, collection) {
+  MongoDbI.collection('categories', { 'strict': true }, function (err, collection) {
 
     if (err !== null) {
       next('Something wrong happend with collection while retrieving documents.');
@@ -38,11 +22,61 @@ module.exports.getCategories = function (req, res, next) {
     collection.find().toArray(function (err, categories) {
 
       if (err !== null) {
-        next('Something wrong happend with documents while iterating over documents.');
+        res.send({ 'error': 'Something wrong happend with documents while iterating over documents.' });
       }
 
       res.send(categories);
     });
   });
 }
+
+/**
+ * This function is used to find category corresponding to provided `_id`.
+ */
+module.exports.findCategory = function (req, res, next) {
+
+  var documentId = req.params.id;
+  /**
+   * Getting access to categories collection.
+   */
+  MongoDbI.collection('categories', { 'strict': true }, function (err, collection) {
+
+    /**
+     * Retrieve document corresponding to provided _id.
+     */
+    collection.find({ '_id': objectID(documentId) }).toArray(function (arr, document) {
+
+      if (err !== null) {
+        res.send({ 'error': err.message });
+      }
+
+      res.send(document);
+    });
+  });
+}
+
+/**
+ * `deleteCategory` module is used to delete document corresponding to specified
+ * `_id`.
+ */
+exports.deleteCategory = function (req, res, next) {
+
+  var documentID = req.params.id;
+
+  MongoDbI.collection('categories', { 'strict': true }, function (err, collection) {
+
+    collection.deleteOne({ '_id': objectID(documentID) }, function (err, deleteResult) {
+
+      if (deleteResult.result.ok != 1) {
+        res.status(500).send('Something went wrong while while performing delete action. Try after some time.');
+      }
+
+      res.send('Document with _id ' + documentID + ' has been deleted successfully.');
+    });
+
+  });
+}
+
+
+
 

@@ -51,7 +51,7 @@ app.use(errorHandler);
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/movies', categoryRoutes);
+app.use('/category', categoryRoutes);
 app.use('/errors', errorsRoutes);
 
 // catch 404 and forward to error handler
