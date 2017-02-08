@@ -9,7 +9,7 @@ var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var moviesRoutes = require('./routes/movies');
+var categoryRoutes = require('./routes/categories');
 var errorsRoutes = require('./routes/errors');
 
 var app = express();
@@ -51,7 +51,7 @@ app.use(errorHandler);
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/movies', moviesRoutes);
+app.use('/movies', categoryRoutes);
 app.use('/errors', errorsRoutes);
 
 // catch 404 and forward to error handler
