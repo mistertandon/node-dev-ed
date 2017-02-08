@@ -5,30 +5,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var eHbs = require('express-handlebars');
+var expressValidator = require('express-validator');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var moviesRoutes = require('./routes/movies');
 var errorsRoutes = require('./routes/errors');
 
 var app = express();
-
-var mongoClient = require('mongodb').MongoClient;
-const mongoDatabaseUrl = "mongodb://localhost:27017/worldbank";
-
-mongoClient.connect(mongoDatabaseUrl, function (err, db) {
-
-  /**
-   * Here we are checking an err variable is having null value
-   * or not.
-   * 
-   */
-  if (err === null && typeof err === "object") {
-
-    console.log('Connection has been made successfull using nodemon');
-  }
-  db.close();
-
-});
 
 app.engine('.hbs', eHbs({
   extname: '.hbs',
@@ -46,8 +30,11 @@ app.set('view engine', 'hbs');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -64,9 +51,8 @@ app.use(errorHandler);
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/movies', moviesRoutes);
 app.use('/errors', errorsRoutes);
-
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
