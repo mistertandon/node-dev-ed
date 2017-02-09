@@ -77,6 +77,26 @@ exports.deleteCategory = function (req, res, next) {
   });
 }
 
+/**
+ * `deleteCategory` module is used to delete document corresponding to specified
+ * `_id`.
+ */
+exports.addCategory = function (req, res, next, categoryObj) {
+
+  MongoDbI.collection('categories', { 'strict': true }, function (err, collection) {
+
+    collection.insertOne(categoryObj, {}, function (err, result) {
+
+      if (err !== null) {
+        res.send({ 'error': 'Something went wrong while inserting document, please try after some time.' });
+      }
+
+      res.send({ 'success': 'Category document has been added successfully, document id is :' + result.insertedId });
+    });
+
+  });
+}
+
 
 
 
