@@ -67,7 +67,7 @@ exports.deleteCategory = function (req, res, next) {
 
     collection.deleteOne({ '_id': objectID(documentID) }, function (err, deleteResult) {
 
-      if (deleteResult.result.ok != 1) {
+      if (err !== null) {
         res.status(500).send('Something went wrong while while performing delete action. Try after some time.');
       }
 

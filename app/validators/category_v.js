@@ -1,4 +1,9 @@
 'use strict';
+
+const _isEmpty_V = require('lodash').isEmpty;
+var isAlphNumeric_V = require('./validations_lib').isAlphaNumeric;
+var isAlphaNumericWithUndHyp_V = require('./validations_lib').isAlphaNumericWithUndHyp;
+
 /**
  * Importing isValid functin of bson-objectid module.
  */
@@ -16,18 +21,7 @@ exports.validateObjectID = function (req, res, next) {
   }
 
 }
-/*
-CategoryName
-Description
-Picture
-field4
-field5
-field6
-field7
-*/
-const _isEmpty_V = require('lodash').isEmpty;
-var isAlphNumeric_V = require('./validations_lib').isAlphaNumeric;
-var isAlphaNumericWithUndHyp_V = require('./validations_lib').isAlphaNumericWithUndHyp;
+
 /**
  * This module is used to validate add categroy request.
  */
@@ -43,6 +37,10 @@ exports.validateAddCategoryRequestV = function (req, res, next) {
   var field5 = req.body.field5;
   var field6 = req.body.field6;
   var field7 = req.body.field7;
+
+  /**
+   * Now we will accumulate all errors messages if found.
+   */
 
   if (!Number.isFinite(CategoryID)) {
     errorObj.CategoryID = "Passed category id must be a finite integer.";
@@ -76,6 +74,9 @@ exports.validateAddCategoryRequestV = function (req, res, next) {
     res.send(JSON.stringify(errorObj));
   }
 
+  /**
+   * `categoryObj` we'll directly use this object for add category action.
+   */
   categoryObj = {
     'CategoryID': CategoryID,
     'CategoryName': CategoryName,

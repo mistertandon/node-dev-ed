@@ -49,6 +49,9 @@ router.post('/', function (req, res, next) {
 
 });
 
+/**
+ * This route definition handle delete category request.
+ */
 router.delete('/:id', function (req, res, next) {
 
   CategoryV.validateObjectID(req, res, next);
