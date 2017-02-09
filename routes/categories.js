@@ -25,10 +25,27 @@ router.get('/', function (req, res, next) {
 
 });
 
+/**
+ * This route definition used to handle get request
+ * for categories.
+ * 
+ */
 router.get('/:id', function (req, res, next) {
 
   CategoryV.validateObjectID(req, res, next);
   Category.findCategory(req, res, next);
+
+});
+
+/**
+ * This route definition handles add category request.
+ */
+router.post('/', function (req, res, next) {
+
+  var categoryObj;
+
+  categoryObj = CategoryV.validateAddCategoryRequestV(req, res, next);
+  Category.addCategory(req, res, next, categoryObj);
 
 });
 
