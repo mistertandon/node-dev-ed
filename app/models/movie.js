@@ -84,3 +84,189 @@ exports.findWithMultipleFields = function (req, res, next) {
 
   });
 }
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * single field for filtering (Nested Object field will use as filter)
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithNestedObjectField = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500).send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "tomato.meter": 99 }).limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
+
+      if (err !== null) {
+        res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+      }
+
+      res.send(documents);
+    });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * An entire array for filtering documents
+ * limit method of find cursor
+ * toArray method of find curosr
+ * 
+ * Note: Array ordering matter in find method. In below example collection.find retrieve documents
+ * having writer key an array with two elements [ "Rhett Reese" followed by "Paul Wernick" ]
+ */
+exports.findWithEntireArrayElements = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+
+    if (err !== null) {
+      res.status(500).send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers": ["Rhett Reese", "Paul Wernick"] }).limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
+
+      if (err !== null) {
+        res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+      }
+
+      res.send(documents);
+    });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * Any array key to match against provided value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithAnyElementOfArray = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+
+    if (err !== null) {
+      res.status(500).send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers": "Andrew Stanton" }).limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
+
+      if (err !== null) {
+        res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+      }
+
+      res.send(documents);
+    });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * Specific array key to match against provided value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithSpecificElementOfArray = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers.0": "John Lasseter" })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * Will use projection to reduce documents size by limiting fields in result
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldProjectionIncludeFields = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers": "John Lasseter" }, { "title": 1, "year": 1 })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * Will use projection to reduce documents size by limiting fields in result
+ * Will use projection to eliminate `_id` field
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldProjectionIncludedFieldExcludeId = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers": "John Lasseter" }, { "title": 1, "year": 1, "_id": 0 })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
