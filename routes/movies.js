@@ -10,6 +10,7 @@ var MongodbAirthmaticAggregationOperator_MR = require('./../app/lib/mongodb_airt
 var MongodbDateAggregationOperator_MR = require('./../app/lib/mongodb_date_aggregation_operator');
 var MongodbGroupAccumulatorAggregationOperator_MR = require('./../app/lib/mongodb_group_accumulator_aggregation_operator');
 var MongodbPipelineAggregation_MR = require('./../app/lib/mongodb_pipeline_aggregation');
+var MongodbStringAggregationOperator_MR = require('./../app/lib/mongodb_string_aggregation_operator');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -284,12 +285,19 @@ router.get('/find/group-avg-accumulator-aggregation-operator/limit/to-array', fu
 });
 
 /**
- * This route definition handles request for demonstrating retrieving documents using `collection.find`
- * method. In this case we will use : $sum group accumulator
+ * This route definition handles request for demonstrating retrieving documents using `aggregate`
  */
 router.get('/find/pipeline-aggregation-operator/limit/to-array', function (req, res, next) {
   MongodbPipelineAggregation_MR.pipelineAggregation(req, res, next);
 });
-//
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `aggregate`
+ * method. In this case we will use : $conact string operator
+ */
+router.get('/find/concat-string-aggregation-operator', function (req, res, next) {
+  MongodbStringAggregationOperator_MR.stringAggregateOperators(req, res, next);
+});
+
 module.exports = router;
 
