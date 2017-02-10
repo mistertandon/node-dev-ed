@@ -311,7 +311,7 @@ exports.findWithOneFieldProjectionExcludeFields = function (req, res, next) {
  * limit method of find cursor
  * toArray method of find curosr
  */
-exports.findWithOneFieldLtGtComparisionOperator = function (req, res, next) {
+exports.findLtGtComparisionOperator = function (req, res, next) {
 
   MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
 
@@ -343,7 +343,7 @@ exports.findWithOneFieldLtGtComparisionOperator = function (req, res, next) {
  * limit method of find cursor
  * toArray method of find curosr
  */
-exports.findWithOneFieldLteGteComparisionOperator = function (req, res, next) {
+exports.findLteGteComparisionOperator = function (req, res, next) {
 
   MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
 
@@ -375,7 +375,7 @@ exports.findWithOneFieldLteGteComparisionOperator = function (req, res, next) {
  * limit method of find cursor
  * toArray method of find curosr
  */
-exports.findWithOneFieldNeComparisionOperator = function (req, res, next) {
+exports.findNeComparisionOperator = function (req, res, next) {
 
   MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
 
@@ -460,6 +460,110 @@ exports.findWithOneFieldOrAndLogicalOperator = function (req, res, next) {
         "runtime": { $gte: 100 }
       }],
       "tomato.meter": { $not: { $lt: 50 } }
+    })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $exists element operator with `true` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findExistsTrueElementOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({
+      "year": { $exists: true }
+    })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $exists element operator with `false` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findExistsFalseElementOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({
+      "year": { $exists: false }
+    })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $type element operator with `false` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findTypeElementOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({
+      "title": { $type: "string" },
+      "rated": { $type: "string" },
+      "tomato": { $type: "object" }
     })
       .limit(MongoDb_MC.defaultFindLimitOptionValue)
       .toArray(function (err, documents) {
