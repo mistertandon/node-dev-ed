@@ -115,6 +115,18 @@ router.get('/find/filter-with-one-field/in-nin-comparision-operator/limit/to-arr
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use :
  * 
+ * Will use $or, $and logical operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/or-and-logical-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldOrAndLogicalOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
  * multiple fields for filtering
  * limit method of find cursor
  * toArray method of find curosr
