@@ -7,6 +7,7 @@ var Movie_MR = require('./../app/models/movie');
 var MongodbQueryOperator_MR = require('./../app/lib/mongodb_query_operator');
 var MongodbProjectionOperator_MR = require('./../app/lib/mongodb_projection_operator');
 var MongodbAirthmaticAggregationOperator_MR = require('./../app/lib/mongodb_airthmatic_aggregation_operator');
+var MongodbDateAggregationOperator_MR = require('./../app/lib/mongodb_date_aggregation_operator');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -256,5 +257,13 @@ router.get('/find/ceil-airthmatic-operator/limit/to-array', function (req, res, 
   MongodbAirthmaticAggregationOperator_MR.ceil(req, res, next);
 });
 
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $slice projection operator
+ */
+router.get('/find/date-aggregation-operator/limit/to-array', function (req, res, next) {
+  MongodbDateAggregationOperator_MR.dateAggregation(req, res, next);
+});
+//
 module.exports = router;
 
