@@ -1,6 +1,5 @@
 var MongoDbM = require('./mongodbm'),
-  MongoDbI = MongoDbM.MongoDbI,
-  MongoBSON = MongoDbM.MongoBSON;
+  MongoDbI = MongoDbM.MongoDbI;
 
 var objectID = require('bson-objectid');
 
