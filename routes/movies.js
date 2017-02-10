@@ -6,6 +6,7 @@ var router = express.Router();
 var Movie_MR = require('./../app/models/movie');
 var MongodbQueryOperator_MR = require('./../app/lib/mongodb_query_operator');
 var MongodbProjectionOperator_MR = require('./../app/lib/mongodb_projection_operator');
+var MongodbAirthmaticAggregationOperator_MR = require('./../app/lib/mongodb_airthmatic_aggregation_operator');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -239,6 +240,21 @@ router.get('/find/slice-projection-operator/limit/to-array', function (req, res,
   MongodbProjectionOperator_MR.findSliceProjectionOperator(req, res, next);
 });
 
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $slice projection operator
+ */
+router.get('/find/add-airthmatic-operator/limit/to-array', function (req, res, next) {
+  MongodbAirthmaticAggregationOperator_MR.add(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $slice projection operator
+ */
+router.get('/find/ceil-airthmatic-operator/limit/to-array', function (req, res, next) {
+  MongodbAirthmaticAggregationOperator_MR.ceil(req, res, next);
+});
 
 module.exports = router;
 
