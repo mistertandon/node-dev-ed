@@ -37,37 +37,3 @@ exports.dateAggregation = function (req, res, next) {
       });
   });
 }
-
-/**
- * This function is used to implement $ceil query operator.
- */
-exports.ceil = function (req, res, next) {
-
-  MongoDbI_ML.collection('orders', { 'strict': true }, function (err, collection) {
-
-    if (err !== null) {
-      res.status(500).send({ "error": MongoDb_ML.CollectionCouldNotAccess })
-    }
-
-    collection.aggregate([
-      {
-        $project: {
-          "OrderID": 1,
-          "ShipVia": 1,
-          "FreightInt": {
-            $ceil: "$Freight"
-          }
-        }
-      }
-
-    ], function (err, result) {
-
-      if (err !== null) {
-        res.status(500).send({ "error": MongoDb_ML.CeilAggregationOperationThrownError })
-      }
-
-      res.send(result);
-    });
-  });
-
-}
