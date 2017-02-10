@@ -430,3 +430,47 @@ exports.findWithOneFieldInNinComparisionOperator = function (req, res, next) {
 
   });
 }
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $or, $and logical operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldOrAndLogicalOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({
+      $or: [{
+        "year": { $eq: 2016 }
+      }, {
+        "writers.0": { $eq: "John Lasseter" }
+      }],
+      $and: [{
+        'rated': { $eq: "PG-13" }
+      }, {
+        "runtime": { $gte: 100 }
+      }],
+      "tomato.meter": { $not: { $lt: 50 } }
+    })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
