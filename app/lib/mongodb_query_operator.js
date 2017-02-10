@@ -7,7 +7,6 @@ var MongoDb_MC = require('./../config/mongodb_cong').MongoDB_CONF;
 /**
  * This function is used to implement $all query operator.
  */
-
 exports.findAllQueryOperator = function (req, res, next) {
 
   MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
