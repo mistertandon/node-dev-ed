@@ -2,24 +2,6 @@
 var express = require('express');
 var router = express.Router();
 
-var mongoClient = require('mongodb').MongoClient;
-const mongoDatabaseUrl = "mongodb://localhost:27017/worldbank";
-
-mongoClient.connect(mongoDatabaseUrl, function (err, db) {
-
-    /**
-     * Here we are checking an err variable is having null value
-     * or not.
-     * 
-     */
-    if (err === null && typeof err === "object") {
-
-        console.log('Connection has been made successfull using nodemon');
-    }
-    db.close();
-
-});
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('user index page.');
