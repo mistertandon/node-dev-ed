@@ -5,6 +5,7 @@ var router = express.Router();
 
 var Movie_MR = require('./../app/models/movie');
 var MongodbQueryOperator_MR = require('./../app/lib/mongodb_query_operator');
+var MongodbProjectionOperator_MR = require('./../app/lib/mongodb_projection_operator');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -208,13 +209,36 @@ router.get('/find/filter-with-any-element-of-array/limit/to-array', function (re
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
- * method. In this case we will use :
- * 
- * Specific key of array to match against provided value
+ * method. In this case we will use : Specific key of array to match against provided value
  */
 router.get('/find/filter-with-specific-element-of-array/limit/to-array', function (req, res, next) {
   Movie_MR.findWithSpecificElementOfArray(req, res, next);
 });
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $elemMatch projection operator
+ */
+router.get('/find/elem-match-projection-operator/limit/to-array', function (req, res, next) {
+  MongodbProjectionOperator_MR.findElemMatchProjectionOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $ positional projection operator
+ */
+router.get('/find/positional-projection-operator/limit/to-array', function (req, res, next) {
+  MongodbProjectionOperator_MR.findPositionalProjectionOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $slice projection operator
+ */
+router.get('/find/slice-projection-operator/limit/to-array', function (req, res, next) {
+  MongodbProjectionOperator_MR.findSliceProjectionOperator(req, res, next);
+});
+
 
 module.exports = router;
 
