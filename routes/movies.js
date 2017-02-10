@@ -9,6 +9,7 @@ var MongodbProjectionOperator_MR = require('./../app/lib/mongodb_projection_oper
 var MongodbAirthmaticAggregationOperator_MR = require('./../app/lib/mongodb_airthmatic_aggregation_operator');
 var MongodbDateAggregationOperator_MR = require('./../app/lib/mongodb_date_aggregation_operator');
 var MongodbGroupAccumulatorAggregationOperator_MR = require('./../app/lib/mongodb_group_accumulator_aggregation_operator');
+var MongodbPipelineAggregation_MR = require('./../app/lib/mongodb_pipeline_aggregation');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -280,6 +281,14 @@ router.get('/find/group-sum-accumulator-aggregation-operator/limit/to-array', fu
  */
 router.get('/find/group-avg-accumulator-aggregation-operator/limit/to-array', function (req, res, next) {
   MongodbGroupAccumulatorAggregationOperator_MR.avg(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use : $sum group accumulator
+ */
+router.get('/find/pipeline-aggregation-operator/limit/to-array', function (req, res, next) {
+  MongodbPipelineAggregation_MR.pipelineAggregation(req, res, next);
 });
 //
 module.exports = router;
