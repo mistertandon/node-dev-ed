@@ -45,7 +45,35 @@ exports.findWithOneField = function (req, res, next) {
       res.status(500).send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
     }
 
-    collection.find().limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
+    collection.find({ rated: 'PG-13' }).limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
+
+      if (err !== null) {
+        res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+      }
+
+      res.send(documents);
+    });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.findOne`
+ * method. In this case we will use :
+ *
+ * multiple fields for filtering
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithMultipleFields = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500).send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ 'rated': 'PG-13', 'year': 2016 }).limit(MongoDb_MC.defaultFindLimitOptionValue).toArray(function (err, documents) {
 
       if (err !== null) {
         res.status(500).send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
