@@ -71,8 +71,8 @@ router.get('/find/filter-with-one-field/projection-include-fields-exclude-id/lim
  * limit method of find cursor
  * toArray method of find curosr
  */
-router.get('/find/filter-with-one-field/lt-gt-comparision-operator/limit/to-array', function (req, res, next) {
-  Movie_MR.findWithOneFieldLtGtComparisionOperator(req, res, next);
+router.get('/find/lt-gt-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findLtGtComparisionOperator(req, res, next);
 });
 
 /**
@@ -83,8 +83,8 @@ router.get('/find/filter-with-one-field/lt-gt-comparision-operator/limit/to-arra
  * limit method of find cursor
  * toArray method of find curosr
  */
-router.get('/find/filter-with-one-field/lte-gte-comparision-operator/limit/to-array', function (req, res, next) {
-  Movie_MR.findWithOneFieldLteGteComparisionOperator(req, res, next);
+router.get('/find/lte-gte-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findLteGteComparisionOperator(req, res, next);
 });
 
 /**
@@ -95,8 +95,8 @@ router.get('/find/filter-with-one-field/lte-gte-comparision-operator/limit/to-ar
  * limit method of find cursor
  * toArray method of find curosr
  */
-router.get('/find/filter-with-one-field/ne-comparision-operator/limit/to-array', function (req, res, next) {
-  Movie_MR.findWithOneFieldNeComparisionOperator(req, res, next);
+router.get('/find/ne-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findNeComparisionOperator(req, res, next);
 });
 
 /**
@@ -122,6 +122,43 @@ router.get('/find/filter-with-one-field/in-nin-comparision-operator/limit/to-arr
 router.get('/find/filter-with-one-field/or-and-logical-operator/limit/to-array', function (req, res, next) {
   Movie_MR.findWithOneFieldOrAndLogicalOperator(req, res, next);
 });
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $exists element operator with `true` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/exists-true-element-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findExistsTrueElementOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $exists element operator with `true` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/exists-false-element-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findExistsFalseElementOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $type element operator with `true` value
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/type-element-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findTypeElementOperator(req, res, next);
+});
+
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
