@@ -30,7 +30,7 @@ exports.findOneWithOneField = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * single field for filtering
@@ -58,7 +58,7 @@ exports.findWithOneField = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * multiple fields for filtering
@@ -86,7 +86,7 @@ exports.findWithMultipleFields = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * single field for filtering (Nested Object field will use as filter)
@@ -146,7 +146,7 @@ exports.findWithEntireArrayElements = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * Any array key to match against provided value
@@ -175,7 +175,7 @@ exports.findWithAnyElementOfArray = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * Specific array key to match against provided value
@@ -206,7 +206,7 @@ exports.findWithSpecificElementOfArray = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * Will use projection to reduce documents size by limiting fields in result
@@ -238,7 +238,7 @@ exports.findWithOneFieldProjectionIncludeFields = function (req, res, next) {
 }
 
 /**
- * This module is used to retrieving documents using `collection.findOne`
+ * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
  * Will use projection to reduce documents size by limiting fields in result
@@ -270,3 +270,163 @@ exports.findWithOneFieldProjectionIncludedFieldExcludeId = function (req, res, n
   });
 }
 
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use projection to reduce documents size by limiting fields in result
+ * Will use projection to eliminate `_id` field
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldProjectionExcludeFields = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "writers": "John Lasseter" }, { "writers": 0, "actors": 0, "plot": 0, "poster": 0, "imdb": 0, "tomato": 0 })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $lt, $gt comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldLtGtComparisionOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "runtime": { $lt: 140, $gt: 105 } })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $lte, $gte comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldLteGteComparisionOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "runtime": { $lte: 140, $gte: 105 } })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $ne comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldNeComparisionOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "year": { $ne: 2016 } })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
+ * Will use $in, $nin comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+exports.findWithOneFieldInNinComparisionOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({ "year": { $in: [2010, 2012], $nin: [2016] } })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}

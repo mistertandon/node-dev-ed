@@ -42,12 +42,73 @@ router.get('/find/filter-with-one-field/projection-include-fields/limit/to-array
  * method. In this case we will use :
  * 
  * Will use projection to reduce documents size by limiting fields in result
+ * Will use projection to exclude desired fields from resultant documents
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/projection-exclude-fields/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldProjectionExcludeFields(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use projection to reduce documents size by limiting fields in result
  * Will use projection to eleminate `_id` field
  * limit method of find cursor
  * toArray method of find curosr
  */
 router.get('/find/filter-with-one-field/projection-include-fields-exclude-id/limit/to-array', function (req, res, next) {
   Movie_MR.findWithOneFieldProjectionIncludedFieldExcludeId(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $lt, $gt comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/lt-gt-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldLtGtComparisionOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $lte, $gte comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/lte-gte-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldLteGteComparisionOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $ne comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/ne-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldNeComparisionOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $in, $nin comparision operator
+ * limit method of find cursor
+ * toArray method of find curosr
+ */
+router.get('/find/filter-with-one-field/in-nin-comparision-operator/limit/to-array', function (req, res, next) {
+  Movie_MR.findWithOneFieldInNinComparisionOperator(req, res, next);
 });
 
 /**
