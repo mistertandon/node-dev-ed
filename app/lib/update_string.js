@@ -2,7 +2,7 @@ var MongoDb_ML = require('./../models/mongodbm'),
 	MongoDbI_ML = MongoDb_ML.MongoDbI;
 
 var MongoDb_LMsg_ML = require('./../locale/mongodb_locale').MongoDb_MLocale;
-var MongoDb_ML = require('./../config/mongodb_cong').MongoDB_CONF;
+var MongoDB_CONF_ML = require('./../config/mongodb_cong').MongoDB_CONF;
 
 /**
  * This function is used to update document.

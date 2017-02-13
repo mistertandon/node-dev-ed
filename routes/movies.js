@@ -12,8 +12,7 @@ var MongodbGroupAccumulatorAggregationOperator_MR = require('./../app/lib/mongod
 var MongodbPipelineAggregation_MR = require('./../app/lib/mongodb_pipeline_aggregation');
 var MongodbStringAggregationOperator_MR = require('./../app/lib/mongodb_string_aggregation_operator');
 var UpdateString_MR = require('./../app/lib/update_string');
-
-
+var UpdateArray_MR = require('./../app/lib/update_array');
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -316,6 +315,28 @@ router.get('/update/update-one', function (req, res, next) {
 router.get('/update/update-one-inc-mul-operator', function (req, res, next) {
   UpdateString_MR.updateOneIncMul(req, res, next);
 });
+
+/**
+ * This route definition handles request for updating single field,
+ * It uses $push operator.
+ */
+router.get('/update/update-array-push-operator', function (req, res, next) {
+  UpdateArray_MR.updateArrayPush(req, res, next);
+});
+
+/**
+ * This route definition handles request for updating single field,
+ * It uses $push operator.
+ */
+router.get('/update/update-array-push-each-sort-slice-operator', function (req, res, next) {
+  UpdateArray_MR.updateArrayPushEachSortSlice(req, res, next);
+});
+
+/**
+ * This function is used to update array element of document, it uses
+ * $push, $each, $slice, $sort opeartor.
+ */
+// exports.updateArrayPush = function (req, res, next) {
 
 module.exports = router;
 
