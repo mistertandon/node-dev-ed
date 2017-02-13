@@ -11,6 +11,9 @@ var MongodbDateAggregationOperator_MR = require('./../app/lib/mongodb_date_aggre
 var MongodbGroupAccumulatorAggregationOperator_MR = require('./../app/lib/mongodb_group_accumulator_aggregation_operator');
 var MongodbPipelineAggregation_MR = require('./../app/lib/mongodb_pipeline_aggregation');
 var MongodbStringAggregationOperator_MR = require('./../app/lib/mongodb_string_aggregation_operator');
+var UpdateString_MR = require('./../app/lib/update_string');
+
+
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `collection.findOne`
@@ -299,5 +302,21 @@ router.get('/find/concat-string-aggregation-operator', function (req, res, next)
   MongodbStringAggregationOperator_MR.stringAggregateOperators(req, res, next);
 });
 
+/**
+ * This route definition handles request for updating single field.
+ */
+router.get('/update/update-one', function (req, res, next) {
+  UpdateString_MR.updateOne(req, res, next);
+});
+
+/**
+ * This route definition handles request for updating single field,
+ * It uses $inc and $mul operator.
+ */
+router.get('/update/update-one-inc-mul-operator', function (req, res, next) {
+  UpdateString_MR.updateOneIncMul(req, res, next);
+});
+
 module.exports = router;
 
+// orders : 58a1eb334fcb4e8ed31a53d5
