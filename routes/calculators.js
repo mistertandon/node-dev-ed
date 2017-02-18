@@ -20,4 +20,12 @@ router.get('/subtract/:minuend/:subtrahend', function (req, res, next) {
     Calculator_MR.subtract(req, res, next);
 });
 
+/**
+ * Route to handle Calculator `multiplication` opeartion.
+ */
+router.get('/multiply/:multiplicand/:multiplier', function (req, res, next) {
+
+    Calculator_MR.multiply(req, res, next);
+});
+
 module.exports = router;

@@ -27,3 +27,17 @@ exports.subtract = function (req, res, next) {
 
 	res.send(result);
 }
+
+/**
+ * `exports.multiply` module is used for calculator `multiplication` operation.
+ */
+exports.multiply = function (req, res, next) {
+
+	let multiply = parseInt(req.params.multiplicand, 10) * parseInt(req.params.multiplier, 10);
+
+	let result = {
+		'product': multiply
+	};
+
+	res.send(result);
+}
