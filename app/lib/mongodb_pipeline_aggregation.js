@@ -1,8 +1,7 @@
 var MongoDb_ML = require('./../models/mongodbm'),
   MongoDbI_ML = MongoDb_ML.MongoDbI;
 
-var MongoDb_ML = require('./../locale/mongodb_locale').MongoDb_MLocale;
-var MongoDb_ML = require('./../config/mongodb_cong').MongoDB_CONF;
+var MongoDb_MLocale_ML = require('./../locale/mongodb_locale').MongoDb_MLocale;
 
 /**
  * This function is used to implement $all query operator.
@@ -13,7 +12,7 @@ exports.pipelineAggregation = function (req, res, next) {
 
     if (err !== null) {
       res.status(500)
-        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+        .send({ 'error': MongoDb_MLocale_ML.CollectionCouldNotAccess });
     }
 
     collection.aggregate([
@@ -58,4 +57,84 @@ exports.pipelineAggregation = function (req, res, next) {
       res.send(result);
     });
   });
+}
+
+/**
+ * `exports.lookupaggregate` demonstrate `$lookup` opeartor
+ */
+exports.lookupAggregate = function (req, res, next) {
+
+  MongoDbI_ML.collection('employees', { 'strict': true }, function (err, collection) {
+
+    if (err !== null) {
+
+      res.status(500)
+        .send({ 'error': MongoDb_MLocale_ML.CollectionCouldNotAccess });
+    }
+
+    collection.aggregate(
+      [
+        {
+          "$lookup": {
+            from: "employee-territories",
+            localField: "EmployeeID",
+            foreignField: "EmployeeID",
+            as: "employee_territory"
+          }
+        },
+        {
+          $unwind: "$employee_territory"
+        }
+      ], function (err, aggregationResult) {
+
+        if (err !== null) {
+
+          res.status(500)
+            .send({ 'error': MongoDb_MLocale_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(aggregationResult);
+
+      });
+  });
+}
+
+exports.redactAggregate = function (req, res, next) {
+
+  MongoDbI_ML.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+
+      res.status(500)
+        .send({ 'error': MongoDb_MLocale_ML.CollectionCouldNotAccess });
+    }
+
+    /**
+     * If condition samples:
+     * 
+     * if: 
+     */
+    collection.aggregate(
+      [
+        {
+          "$redact": {
+            "$cond": {
+              if: true,
+              then: "$$DESCEND",
+              else: "$$PRUNE"
+            }
+          }
+        }
+      ], function (err, result) {
+
+        if (err !== null) {
+
+          res.status(500)
+            .send({ 'error': MongoDb_MLocale_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(result);
+      }
+    );
+  })
 }

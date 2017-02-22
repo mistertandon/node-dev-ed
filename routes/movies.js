@@ -294,6 +294,23 @@ router.get('/find/pipeline-aggregation-operator/limit/to-array', function (req, 
 });
 
 /**
+ * This route definition handles request for demonstrating retrieving documents using `aggregate`,
+ * additionally implement $lookup and $unwind operator.
+ */
+router.get('/find/pipeline-lookup-aggregation-operator', function (req, res, next) {
+  MongodbPipelineAggregation_MR.lookupAggregate(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `aggregate`,
+ * additionally implement $redact operator.
+ */
+router.get('/find/pipeline-redact-aggregation-operator', function (req, res, next) {
+  MongodbPipelineAggregation_MR.redactAggregate(req, res, next);
+});
+
+
+/**
  * This route definition handles request for demonstrating retrieving documents using `aggregate`
  * method. In this case we will use : $conact string operator
  */
