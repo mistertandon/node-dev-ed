@@ -11,6 +11,8 @@ var MongodbDateAggregationOperator_MR = require('./../app/lib/mongodb_date_aggre
 var MongodbGroupAccumulatorAggregationOperator_MR = require('./../app/lib/mongodb_group_accumulator_aggregation_operator');
 var MongodbPipelineAggregation_MR = require('./../app/lib/mongodb_pipeline_aggregation');
 var MongodbStringAggregationOperator_MR = require('./../app/lib/mongodb_string_aggregation_operator');
+var ComparisionAggregationOperator_MR = require('./../app/lib/mongodb_comparision_aggregation_operator');
+
 var UpdateString_MR = require('./../app/lib/update_string');
 var UpdateArray_MR = require('./../app/lib/update_array');
 
@@ -28,7 +30,7 @@ router.get('/find-one/filter-with-one-field', function (req, res, next) {
  * 
  * single field for filtering
  */
-router.get('/find/filter-with-one-field/limit/to-array', function (req, res, next) {
+router.get('/find/filter-with-one-field', function (req, res, next) {
   Movie_MR.findWithOneField(req, res, next);
 });
 
@@ -38,7 +40,7 @@ router.get('/find/filter-with-one-field/limit/to-array', function (req, res, nex
  * 
  * Will use projection to reduce documents size by limiting fields in result
  */
-router.get('/find/filter-with-one-field/projection-include-fields/limit/to-array', function (req, res, next) {
+router.get('/find/filter-with-one-field/projection-include-fields', function (req, res, next) {
   Movie_MR.findWithOneFieldProjectionIncludeFields(req, res, next);
 });
 
@@ -60,7 +62,7 @@ router.get('/find/filter-with-one-field/projection-exclude-fields/limit/to-array
  * Will use projection to reduce documents size by limiting fields in result
  * Will use projection to eleminate `_id` field
  */
-router.get('/find/filter-with-one-field/projection-include-fields-exclude-id/limit/to-array', function (req, res, next) {
+router.get('/find/projection-include-fields-exclude-id/limit/to-array', function (req, res, next) {
   Movie_MR.findWithOneFieldProjectionIncludedFieldExcludeId(req, res, next);
 });
 
@@ -100,7 +102,7 @@ router.get('/find/ne-comparision-operator/limit/to-array', function (req, res, n
  * 
  * Will use $in, $nin comparision operator
  */
-router.get('/find/filter-with-one-field/in-nin-comparision-operator/limit/to-array', function (req, res, next) {
+router.get('/find/in-nin-comparision-operator/limit/to-array', function (req, res, next) {
   Movie_MR.findWithOneFieldInNinComparisionOperator(req, res, next);
 });
 
@@ -110,8 +112,18 @@ router.get('/find/filter-with-one-field/in-nin-comparision-operator/limit/to-arr
  * 
  * Will use $or, $and logical operator
  */
-router.get('/find/filter-with-one-field/or-and-logical-operator/limit/to-array', function (req, res, next) {
+router.get('/find/or-and-logical-operator/limit/to-array', function (req, res, next) {
   Movie_MR.findWithOneFieldOrAndLogicalOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `collection.find`
+ * method. In this case we will use :
+ * 
+ * Will use $not logical operator
+ */
+router.get('/find/not-logical-operator', function (req, res, next) {
+  Movie_MR.notLogicalOperator(req, res, next);
 });
 
 /**
@@ -120,7 +132,7 @@ router.get('/find/filter-with-one-field/or-and-logical-operator/limit/to-array',
  * 
  * Will use $exists element operator with `true` value
  */
-router.get('/find/exists-true-element-operator/limit/to-array', function (req, res, next) {
+router.get('/find/exists-true-element-operator', function (req, res, next) {
   Movie_MR.findExistsTrueElementOperator(req, res, next);
 });
 
@@ -226,7 +238,7 @@ router.get('/find/filter-with-specific-element-of-array/limit/to-array', functio
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $elemMatch projection operator
  */
-router.get('/find/elem-match-projection-operator/limit/to-array', function (req, res, next) {
+router.get('/find/elem-match-projection-operator', function (req, res, next) {
   MongodbProjectionOperator_MR.findElemMatchProjectionOperator(req, res, next);
 });
 
@@ -234,7 +246,7 @@ router.get('/find/elem-match-projection-operator/limit/to-array', function (req,
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $ positional projection operator
  */
-router.get('/find/positional-projection-operator/limit/to-array', function (req, res, next) {
+router.get('/find/positional-projection-operator', function (req, res, next) {
   MongodbProjectionOperator_MR.findPositionalProjectionOperator(req, res, next);
 });
 
@@ -242,7 +254,7 @@ router.get('/find/positional-projection-operator/limit/to-array', function (req,
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $slice projection operator
  */
-router.get('/find/slice-projection-operator/limit/to-array', function (req, res, next) {
+router.get('/find/slice-projection-operator', function (req, res, next) {
   MongodbProjectionOperator_MR.findSliceProjectionOperator(req, res, next);
 });
 
@@ -250,7 +262,7 @@ router.get('/find/slice-projection-operator/limit/to-array', function (req, res,
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $slice projection operator
  */
-router.get('/find/add-airthmatic-operator/limit/to-array', function (req, res, next) {
+router.get('/find/add-airthmatic-operator', function (req, res, next) {
   MongodbAirthmaticAggregationOperator_MR.add(req, res, next);
 });
 
@@ -258,7 +270,7 @@ router.get('/find/add-airthmatic-operator/limit/to-array', function (req, res, n
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $slice projection operator
  */
-router.get('/find/ceil-airthmatic-operator/limit/to-array', function (req, res, next) {
+router.get('/find/ceil-airthmatic-operator', function (req, res, next) {
   MongodbAirthmaticAggregationOperator_MR.ceil(req, res, next);
 });
 
@@ -266,7 +278,7 @@ router.get('/find/ceil-airthmatic-operator/limit/to-array', function (req, res, 
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $slice projection operator
  */
-router.get('/find/date-aggregation-operator/limit/to-array', function (req, res, next) {
+router.get('/find/date-aggregation-operator', function (req, res, next) {
   MongodbDateAggregationOperator_MR.dateAggregation(req, res, next);
 });
 
@@ -274,7 +286,7 @@ router.get('/find/date-aggregation-operator/limit/to-array', function (req, res,
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $sum group accumulator
  */
-router.get('/find/group-sum-accumulator-aggregation-operator/limit/to-array', function (req, res, next) {
+router.get('/find/group-sum-accumulator-aggregation-operator', function (req, res, next) {
   MongodbGroupAccumulatorAggregationOperator_MR.sum(req, res, next);
 });
 
@@ -282,14 +294,14 @@ router.get('/find/group-sum-accumulator-aggregation-operator/limit/to-array', fu
  * This route definition handles request for demonstrating retrieving documents using `collection.find`
  * method. In this case we will use : $sum group accumulator
  */
-router.get('/find/group-avg-accumulator-aggregation-operator/limit/to-array', function (req, res, next) {
+router.get('/find/group-avg-accumulator-aggregation-operator', function (req, res, next) {
   MongodbGroupAccumulatorAggregationOperator_MR.avg(req, res, next);
 });
 
 /**
  * This route definition handles request for demonstrating retrieving documents using `aggregate`
  */
-router.get('/find/pipeline-aggregation-operator/limit/to-array', function (req, res, next) {
+router.get('/find/pipeline-aggregation-operator', function (req, res, next) {
   MongodbPipelineAggregation_MR.pipelineAggregation(req, res, next);
 });
 
@@ -307,6 +319,14 @@ router.get('/find/pipeline-lookup-aggregation-operator', function (req, res, nex
  */
 router.get('/find/pipeline-redact-aggregation-operator', function (req, res, next) {
   MongodbPipelineAggregation_MR.redactAggregate(req, res, next);
+});
+
+/**
+ * This route definition handles request for demonstrating retrieving documents using `aggregate`,
+ * additionally implement $aggregate `$in` comparision operator
+ */
+router.get('/find/comparision-aggregation-operator', function (req, res, next) {
+  ComparisionAggregationOperator_MR.inComparisionAggregationOperator(req, res, next);
 });
 
 
@@ -349,12 +369,4 @@ router.get('/update/update-array-push-each-sort-slice-operator', function (req, 
   UpdateArray_MR.updateArrayPushEachSortSlice(req, res, next);
 });
 
-/**
- * This function is used to update array element of document, it uses
- * $push, $each, $slice, $sort opeartor.
- */
-// exports.updateArrayPush = function (req, res, next) {
-
 module.exports = router;
-
-// orders : 58a1eb334fcb4e8ed31a53d5

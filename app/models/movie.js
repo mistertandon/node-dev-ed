@@ -479,6 +479,42 @@ exports.findWithOneFieldOrAndLogicalOperator = function (req, res, next) {
  * This module is used to retrieving documents using `collection.find`
  * method. In this case we will use :
  *
+ * Will use $not logical operator
+ */
+exports.notLogicalOperator = function (req, res, next) {
+
+  MongoDbI_MM.collection('movies', { strict: true }, function (err, collection) {
+
+    if (err !== null) {
+      res.status(500)
+        .send({ 'error': MongoDb_ML.CollectionCouldNotAccess });
+    }
+
+    collection.find({
+      "rated": {
+        "$not": {
+          "$eq": "R"
+        }
+      }
+    })
+      .limit(MongoDb_MC.defaultFindLimitOptionValue)
+      .toArray(function (err, documents) {
+
+        if (err !== null) {
+          res.status(500)
+            .send({ 'error': MongoDb_ML.DocumentsCouldNotAccess });
+        }
+
+        res.send(documents);
+      });
+
+  });
+}
+
+/**
+ * This module is used to retrieving documents using `collection.find`
+ * method. In this case we will use :
+ *
  * Will use $exists element operator with `true` value
  * limit method of find cursor
  * toArray method of find curosr

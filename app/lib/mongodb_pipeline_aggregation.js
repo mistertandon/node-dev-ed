@@ -111,8 +111,6 @@ exports.redactAggregate = function (req, res, next) {
 
     /**
      * If condition samples:
-     * 
-     * if: 
      */
     collection.aggregate(
       [
