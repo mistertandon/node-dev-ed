@@ -7,7 +7,7 @@ var server, db;
 /**
  * We will create server instance.
  */
-server = new mongoServer('localhost', 27017);
+server = new mongoServer("127.0.0.1", 27017);
 
 /**
  * We are craeting databse instance hosted on above mentiobed server.
