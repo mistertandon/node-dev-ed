@@ -340,10 +340,11 @@ router.get('/find/concat-string-aggregation-operator', function (req, res, next)
 });
 
 /**
- * This route definition handles request for updating single field.
+ * This route definition handles request for updating single field using $set
+ * operator.
  */
-router.get('/update/update-one', function (req, res, next) {
-  UpdateString_MR.updateOne(req, res, next);
+router.get('/update/set-operator-update', function (req, res, next) {
+  UpdateString_MR.setOperatorUpdate(req, res, next);
 });
 
 /**
@@ -368,6 +369,22 @@ router.get('/update/update-array-push-operator', function (req, res, next) {
  */
 router.get('/update/update-array-push-each-sort-slice-operator', function (req, res, next) {
   UpdateArray_MR.updateArrayPushEachSortSlice(req, res, next);
+});
+
+/**
+ * This route definition handles request for updating single field,
+ * It uses $push operator.
+ */
+router.get('/update/position-array-update-operator', function (req, res, next) {
+  UpdateArray_MR.positionUpdateArrayOperator(req, res, next);
+});
+
+/**
+ * This route definition handles request for updating single field,
+ * It uses $push operator.
+ */
+router.get('/update/position-array-all-elem-match-current-date-array-update-operator', function (req, res, next) {
+  UpdateArray_MR.elemMatchWithAllUpdateArrayOperator(req, res, next);
 });
 
 /**

@@ -125,19 +125,44 @@ exports.elemMatchWithAllQueryOperatorArray = function (req, res, next) {
 		collection
 			.find({
 				"reviews": {
-					$elemMatch: { "name": { $eq: "parvesh" } }
+					$all: [
+						{
+							$elemMatch: {
+								"name": { $eq: "parvesh" }, "rating": { $eq: 8.9 }
+							}
+						}
+					]
 				}
 			})
-			.toArray(function (err, documents) {
+			.toArray(function (err, result) {
 
-				if (error != null) {
+				if (err != null) {
 
 					res
 						.status(500)
 						.send({ "error": MongoDb_LMsg_ML.DocumentsCouldNotAccess });
 				}
 
-				res.send(documents);
+				res
+					.send(result);
+
 			});
+
 	});
 }
+
+
+// db.getCollection('movies').update(
+
+// 	{
+// 		"reviews": {
+// 								$elemMatch: { "name": { $eq: "parvesh" }, "rating": { $eq: 8.9 } }
+// 		}
+// 	},
+// 	{
+// 		$currentDate: {
+// 										"reviews.$.date": true
+// 		}
+// 	}
+
+// )

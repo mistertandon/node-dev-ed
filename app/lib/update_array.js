@@ -87,3 +87,40 @@ exports.updateArrayPushEachSortSlice = function (req, res, next) {
 			});
 	});
 }
+
+/**
+ * This function is used to update array element of document, it uses
+ * $all, $elemMatch, $currentDate
+ */
+exports.elemMatchWithAllUpdateArrayOperator = function (req, res, next) {
+
+	MongoDbI_ML.collection('movies', { 'strict': true }, function (err, collection) {
+
+		collection.update(
+			{
+				"reviews": {
+					$all: [
+						{
+							$elemMatch: { "name": { $eq: "parvesh" }, "rating": { $eq: 8.9 } }
+						}
+					]
+				}
+			},
+			{
+				$currentDate: {
+					"reviews.$.date": { $type: "date" }
+				}
+			},
+			function (err, result) {
+
+				if (err !== null) {
+					res.status(500).send({ "error": MongoDb_LMsg_ML.CollectionCouldNotAccess })
+				}
+
+				res.send(result);
+			});
+	});
+}
+//ahmedabad jmmutawi 17 2 seats
+//8130472451
+
