@@ -5,9 +5,10 @@ var MongoDb_LMsg_ML = require('./../locale/mongodb_locale').MongoDb_MLocale;
 var MongoDB_CONF_ML = require('./../config/mongodb_cong').MongoDB_CONF;
 
 /**
- * This function is used to update document.
+ * This function is used to updating single field using $set
+ * operator.
  */
-exports.updateOne = function (req, res, next) {
+exports.setOperatorUpdate = function (req, res, next) {
 
 	MongoDbI_ML.collection('movies', { 'strict': true }, function (err, collection) {
 
