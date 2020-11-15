@@ -1,10 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 
-mongoose.connect('mongodb+srv://mistertandon:0291noJI**@devednode.gggju.mongodb.net/<dbname>?retryWrites=true&w=majority',
-    { useUnifiedTopology: true },
+mongoose.connect(
+    process.env.DB_ACCESS,
+    {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+    },
     () => {
 
         console.log('connected to cloud Mongodb');
