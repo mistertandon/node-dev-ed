@@ -2,9 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 
-dotenv.config();
-
 const app = express();
+
+/**
+ * Import routes to the application.
+ */
+const appRoute = require('./routes/auth');
+
+dotenv.config();
 
 mongoose.connect(
     process.env.DB_ACCESS,
@@ -15,13 +20,17 @@ mongoose.connect(
     () => {
 
         console.log('connected to cloud Mongodb');
-    })
+    });
 
 /**
- * Import routes to the application.
+ * Middleware
  */
-const appRoute = require('./routes/auth');
 
+app.use(express.json());
+
+/**
+ * Route Middleware
+ */
 app.use('/api/user/', appRoute);
 
 app.listen(
