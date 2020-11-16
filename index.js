@@ -1,21 +1,25 @@
 const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const bodyParser = require('body-parser')
+
 
 const app = express();
+
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require("cors");
 
 /**
  * Import routes to the application.
  */
-const appRoute = require('./routes/auth');
+const authRoute = require('./routes/auth');
 
 dotenv.config();
 
 mongoose.connect(
     process.env.DB_ACCESS,
     {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
+        useUnifiedTopology: true
+        //useNewUrlParser: true
     },
     () => {
 
@@ -25,13 +29,13 @@ mongoose.connect(
 /**
  * Middleware
  */
-
-app.use(express.json());
+app.use(cors());
+app.use(bodyParser.json());
 
 /**
  * Route Middleware
  */
-app.use('/api/user/', appRoute);
+app.use('/api/user', authRoute);
 
 app.listen(
     3000,
