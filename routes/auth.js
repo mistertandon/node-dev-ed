@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
 const User = require('../model/User');
 
 const { userRegsiterValidation, userLoginValidation } = require('./../joi/signup.joi');
@@ -76,7 +76,8 @@ router.post('/login', async (req, res) => {
             throw new Error('Password is invalid.');
         }
 
-        res.send('Successful login');
+        const token = jwt.sign({ _id: userExist._id }, process.env.TOKEN_SECRET);
+        res.header('auth-token', token).send(token);
 
     } catch (err) {
 
