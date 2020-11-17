@@ -1,23 +1,10 @@
 const router = require('express').Router();
 const User = require('../model/User');
-const Joi = require('@hapi/joi');
-
-const userRegsiterSchema = Joi
-    .object(
-        {
-            name: Joi.string().min(3).max(255).required(),
-            email: Joi.string().min(3).max(255).required().email(),
-            password: Joi.string().min(3).max(255).required()
-        })
-    .options(
-        {
-            abortEarly: false
-        }
-    );
+const { userRegsiterSchema } = require('./../joi/signup.joi');
 
 router.post('/register', async (req, res) => {
 
-    const { error } = userRegsiterSchema.validate(req.body);
+    const { error } = userRegsiterSchema(req.body);
 
     if (error) {
 
