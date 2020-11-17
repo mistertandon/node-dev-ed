@@ -18,8 +18,8 @@ dotenv.config();
 mongoose.connect(
     process.env.DB_ACCESS,
     {
-        useUnifiedTopology: true
-        //useNewUrlParser: true
+        useUnifiedTopology: true,
+        useNewUrlParser: true
     },
     () => {
 
