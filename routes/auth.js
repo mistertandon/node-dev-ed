@@ -3,20 +3,20 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../model/User');
 
-const { userRegsiterSchema } = require('./../joi/signup.joi');
+const { userRegsiterValidation, userLoginValidation } = require('./../joi/signup.joi');
 
 router.post('/register', async (req, res) => {
 
     try {
 
-        const { error } = userRegsiterSchema(req.body);
+        const { error } = userRegsiterValidation(req.body);
 
         if (error) {
-    
+
             let errorObj = {};
-    
+
             error.details.forEach(({ message, context: { key } }) => errorObj[key] = message);
-            
+
             throw new Error(JSON.stringify(errorObj));
         }
 
@@ -38,7 +38,45 @@ router.post('/register', async (req, res) => {
         });
 
         const savedUser = await user.save();
-        res.send(savedUser);
+        res.send({ id: savedUser._id });
+
+    } catch (err) {
+
+        res.status(404).send(err.message);
+    }
+
+});
+
+router.post('/login', async (req, res) => {
+
+    try {
+
+        const { error } = userLoginValidation(req.body);
+
+        if (error) {
+
+            let errorObj = {};
+
+            error.details.forEach(({ message, context: { key } }) => errorObj[key] = message);
+
+            throw new Error(JSON.stringify(errorObj));
+        }
+
+        const userExist = await User.findOne({ email: req.body.email });
+
+        if (userExist === null && typeof userExist === 'object') {
+
+            throw new Error('Username or Email is not valid');
+        }
+
+        const isPasswordValid = await bcrypt.compare(req.body.password, userExist.password);
+
+        if (!isPasswordValid) {
+
+            throw new Error('Password is invalid.');
+        }
+
+        res.send('Successful login');
 
     } catch (err) {
 
