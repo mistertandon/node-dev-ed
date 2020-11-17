@@ -12,6 +12,7 @@ const cors = require("cors");
  * Import routes to the application.
  */
 const authRoute = require('./routes/auth');
+const userRoute = require('./routes/user');
 
 dotenv.config();
 
@@ -35,7 +36,9 @@ app.use(bodyParser.json());
 /**
  * Route Middleware
  */
-app.use('/api/user', authRoute);
+app.use('/api/user', userRoute);
+app.use('/api', authRoute);
+
 
 app.listen(
     3000,
